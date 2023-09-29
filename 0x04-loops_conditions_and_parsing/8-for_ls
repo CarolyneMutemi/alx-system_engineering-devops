@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Displays the content of the current directory.
+# shellcheck disable=SC2012 # Used ls instead of find.
+
+for  file in $(ls | cut -d "-" -f 2)
+do
+	echo "$file"
+done
