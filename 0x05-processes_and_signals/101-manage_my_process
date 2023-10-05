@@ -9,7 +9,7 @@ stop_func()
 start_func()
 {
 	#sudo nohup ./manage_my_process 2>/dev/null &
-	sudo ./manage_my_process &
+	./manage_my_process &
 	pid=$!
 	disown
 	touch /var/run/my_process.pid
