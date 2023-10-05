@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Manages manage_my_process.
+
+stop_func()
+{
+	kill "$(cat /var/run/my_process.pid)" && rm -f /var/run/my_process.pid
+}
+
+start_func()
+{
+	sudo nohup ./manage_my_process 2>/dev/null &
+	pid=$!
+	touch /var/run/my_process.pid
+	echo -e "$pid" > /var/run/my_process.pid
+}
+
+case $1 in
+	start)
+		echo "manage_my_process started" && start_func
+		;;
+	stop)
+		stop_func && echo "manage_my_process stopped"
+		;;
+	restart)
+		echo "manage_my_process restarted" && stop_func && start_func
+		;;
+	*)
+		echo "Usage: manage_my_process {start|stop|restart}"
+		;;
+esac
