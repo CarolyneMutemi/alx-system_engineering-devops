@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
-# Configures an Nginx server so that /redirect_me is redirecting to another page.
+#Configures an Nginx server so that /redirect_me is redirecting to another page.
 
-apt-get update -y
-apt-get install nginx -y
-ufw enable
-ufw allow "Nginx HTTP"
+sudo apt-get update -y
+sudo apt-get install nginx -y 
 echo "Hello World!" > /var/www/html/index.html
 
-new_string="server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;"
+replacement="server_name _;\n\trewrite /redirect_me https://www.pinterest.com/pin/238972323970538189/ permanent;"
+sudo sed -i "s|server_name _;|$replacement|" /etc/nginx/sites-available/default
 
-sed -i "s|server_name _;|$new_string|" /etc/nginx/sites-available/default
-service nginx restart
+sudo service nginx restart
