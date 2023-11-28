@@ -8,7 +8,7 @@ sudo ufw allow "Nginx HTTP"
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404 > /dev/null
-another_string="/n/terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
+another_string="\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
 new_string="server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;$another_string"
-sudo sed -i "s%server_name _;%$new_string%" /etc/nginx/sites-available/default
+sudo sed -i "s%server_name _;%$new_string%g" /etc/nginx/sites-available/default
 sudo service nginx restart
