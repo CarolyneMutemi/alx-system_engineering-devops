@@ -7,7 +7,7 @@ sudo ufw enable
 sudo ufw allow "Nginx HTTP"
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
-new_string="server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;"
+new_string="server_name _;\n\trewrite /redirect_me https://pinterest.com permanent;"
 
-sudo sed -i "s%server_name _;%$new_string%g" /etc/nginx/sites-available/default > /dev/null
+sudo sed -i "s%server_name _;%$new_string%" /etc/nginx/sites-available/default
 sudo service nginx restart
