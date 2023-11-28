@@ -9,8 +9,13 @@ package { 'nginx':
   before   => Exec['allow nginx']
 }
 
+service {'nginx':
+  ensure => 'running',
+  enable => 'true'
+}
+
 exec {'apt-get update':
-  command => '/usr/bin/apt-get update',
+  command => '/usr/bin/apt-get update -y',
   before  => Package['nginx']
 }
 
@@ -21,37 +26,34 @@ service { 'ufw':
 
 exec {'allow nginx':
   command => '/usr/bin/sudo ufw allow "Nginx HTTP"',
-  require => Service['/usr/sbin/ufw'],
-  before  => file['$doc_root/index.html']
+  require => Service['ufw']
 }
 
-file {'$doc_root/index.html':
+file {'index.html':
   ensure  => 'present',
-  content => 'Hello World!',
+  path    => "${doc_root}/index.html",
+  content => "Hello World!\n",
   notify  => Service['nginx'],
   require => Package['nginx']
 }
 
-file {'$doc_root/custom_404':
+file {'custom_404':
   ensure  => 'present',
-  content => 'Ceci n\'est pas une page',
+  path    => "${doc_root}/custom_404",
+  content => "Ceci n\'est pas une page\n",
   notify  => Service['nginx'],
   require => Package['nginx']
 }
 
-file {'$server_block/default':
-  backup  => 'true';
-  notify  => Service['nginx'],
+file {'default':
+  ensure  => 'present',
+  path    => "${server_block}/default",
+  backup  => 'true',
   require => Package['nginx']
 }
 
-file_line {'name': 
-  line      => '',
-  path      => 'absolute path to the file',
-  #after    => undef,
-  #ensure   => 'present',
-  #match    => undef, # /.*match/
-  #multiple => undef, # 'true' or 'false'
-  #name     => undef,
-  #replace  => true, # 'true' or 'false'
+exec {'sed':
+  command => '/usr/bin/sed -i "s%server_name _;%server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}%" /etc/nginx/sites-available/default',
+  require => File['default'],
+  notify  => Service['nginx']
 }
