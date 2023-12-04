@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Installs and configures HAproxy loadbalancer.
-sudo apt-get install --no-install-recommends software-properties-common -y
-sudo add-apt-repository ppa:vbernat/haproxy-2.8 -y
+# sudo apt-get install --no-install-recommends software-properties-common -y
+# sudo add-apt-repository ppa:vbernat/haproxy-2.8 -y
 sudo apt-get update -y
-sudo apt-get install haproxy=2.8.\* -y
+sudo apt-get install haproxy -y
+# sudo apt-get install haproxy=2.8.\* -y
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
 # A backup
 cp /etc/haproxy/haproxy.cfg ~
