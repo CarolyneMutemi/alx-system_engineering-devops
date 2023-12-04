@@ -1,5 +1,6 @@
 #!/bin/bash
 # Configures an NGINX server on a brand new ubuntu machine.
+# shellcheck disable=SC2154
 
 sudo apt-get update -y
 sudo apt-get install nginx -y
