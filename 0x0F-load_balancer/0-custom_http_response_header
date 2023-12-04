@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Configures an NGINX server on a brand new ubuntu machine.
 # shellcheck disable=SC2154
 
