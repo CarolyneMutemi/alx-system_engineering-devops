@@ -1,0 +1,15 @@
+#!/bin/bash
+# Configures an NGINX server on a brand new ubuntu machine.
+
+sudo apt-get update -y
+sudo apt-get install nginx -y
+sudo ufw enable
+sudo ufw allow "Nginx HTTP"
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404 > /dev/null
+another_string="\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
+new_string="server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;$another_string"
+sudo sed -i "s%server_name _;%$new_string%" /etc/nginx/sites-available/default
+sudo sed -i "s|location / {|location / {\n\t\tadd_header X-Served-By \$hostname always;|" /etc/nginx/sites-available/default
+sudo service nginx restart
