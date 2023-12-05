@@ -53,13 +53,13 @@ file {'default':
 }
 
 exec {'sed':
-  command => '/usr/bin/sed -i "s%server_name _;%server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}%" /etc/nginx/sites-available/default',
+  command => '/usr/bin/sudo sed -i "s%server_name _;%server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}%" /etc/nginx/sites-available/default',
   require => File['default'],
   notify  => Service['nginx']
 }
 
 exec {'sudo sed':
-  command => '/usr/bin/sed -i "s|location / {|location / {\n\t\tadd_header X-Served-By \$hostname always;|" /etc/nginx/sites-available/default',
+  command => '/usr/bin/sed -i "s|location / {|location / {\n\t\tadd_header X-Served-By \$hostname;|" /etc/nginx/sites-available/default',
   require => File['default'],
   notify  => Service['nginx']
 }
