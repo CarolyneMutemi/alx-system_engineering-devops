@@ -5,7 +5,8 @@ $server_block = '/etc/nginx/sites-available'
 
 package { 'nginx':
   ensure   => 'installed',
-  provider => 'apt'
+  provider => 'apt',
+  before   => Service['nginx']
 }
 
 service {'nginx':
