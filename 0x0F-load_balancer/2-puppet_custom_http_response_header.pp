@@ -5,8 +5,7 @@ $server_block = '/etc/nginx/sites-available'
 
 package { 'nginx':
   ensure   => 'installed',
-  provider => 'apt',
-  before   => Exec['allow nginx']
+  provider => 'apt'
 }
 
 service {'nginx':
@@ -19,15 +18,6 @@ exec {'apt-get update':
   before  => Package['nginx']
 }
 
-service { 'ufw':
-  ensure => 'running',
-  enable => 'true'
-}
-
-exec {'allow nginx':
-  command => '/usr/bin/sudo ufw allow "Nginx HTTP"',
-  require => Service['ufw']
-}
 
 file {'index.html':
   ensure  => 'present',
@@ -53,7 +43,7 @@ file {'default':
 }
 
 exec {'sed':
-  command => '/usr/bin/sudo sed -i "s%server_name _;%server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}%" /etc/nginx/sites-available/default',
+  command => '/usr/bin/sed -i "s%server_name _;%server_name _;\n\trewrite ^/redirect_me https://pinterest.com permanent;\n\terror_page 404 /custom_404;\n\tlocation = /custom_404 {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}%" /etc/nginx/sites-available/default',
   require => File['default'],
   notify  => Service['nginx']
 }
