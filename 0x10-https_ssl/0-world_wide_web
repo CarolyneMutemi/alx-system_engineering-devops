@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Displays information about given/all subdomains.
+
+display() {
+	dest=$(dig "$1".tedshmosby.tech | grep 'ANSWER SECTION' -A1 | awk 'FNR == 2 {print $5}')
+	record=$(dig "$1".tedshmosby.tech | grep 'ANSWER SECTION' -A1 | awk 'FNR == 2 {print $4}')
+	echo "The subdomain $1 is a $record record and points to $dest"
+}
+
+if [ "$#" -gt 0 ];
+then
+        display "$1"
+else
+	arr=("www" "lb-01" "web-01" "web-02")
+	for sub in "${arr[@]}"
+        do
+                display "$sub"
+        done
+fi
