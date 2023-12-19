@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 # Runs the whoami command under the user passed as an argument.
 
-runuser -u "$1" -- whoami 2> /dev/null
+if cut -d: -f1 /etc/passwd | grep "$1" > /dev/null; then
+    runuser -u "$1" -- whoami 2> /dev/null
+fi
