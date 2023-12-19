@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Runs the whoami command under the user passed as an argument.
 
-runuser -u "$1" -- whoami
+runuser -u "$1" -- whoami 2> /dev/null
