@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Fixing the container so that Nginx is running as the nginx user.
 
+useradd nginx > /dev/null
 sed -i 's|forking|forking\nRuntimeDirectory=nginx|' /usr/lib/systemd/system/nginx.service
 sed -i 's|mixed|mixed\nUser=nginx\nGroup=nginx\n|' /usr/lib/systemd/system/nginx.service
 sed -i 's|80|8080|' /etc/nginx/sites-available/default
