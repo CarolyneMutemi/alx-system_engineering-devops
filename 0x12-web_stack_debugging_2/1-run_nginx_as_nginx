@@ -5,8 +5,8 @@ useradd nginx > /dev/null
 sed -i 's|forking|forking\nRuntimeDirectory=nginx|' /usr/lib/systemd/system/nginx.service
 sed -i 's|mixed|mixed\nUser=nginx\nGroup=nginx\n|' /usr/lib/systemd/system/nginx.service
 sed -i 's|80|8080|' /etc/nginx/sites-available/default
-setfacl -R -m u:nginx:rwx /var/log/nginx
-setfacl -m u:nginx:rwx /run
+chown -R nginx:nginx /var/log/nginx
+chown -R nginx:nginx /run/nginx
 chown -R nginx:nginx /usr/share/nginx/
 systemctl daemon-reload
 service nginx restart
