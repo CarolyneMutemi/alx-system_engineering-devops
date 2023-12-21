@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Fixing the container so that Nginx is running as the nginx user.
+
+sed -i 's|forking|forking\nRuntimeDirectory=nginx|' /usr/lib/systemd/system/nginx.service
+sed -i 's|mixed|mixed\nUser=nginx\nGroup=nginx\n|' /usr/lib/systemd/system/nginx.service
+ufw allow 8080
+sed -i 's|80|8080|' /etc/nginx/sites-available/default
+setfacl -R -m u:nginx:rwx /var/log/nginx
+setfacl -m u:nginx:rwx /run
+chown -R nginx:nginx /usr/share/nginx/
+systemctl daemon-reload
+service nginx restart
