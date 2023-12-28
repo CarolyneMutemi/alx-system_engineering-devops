@@ -2,4 +2,4 @@
 # Fixing nginx installation
 sudo apt update -y
 sudo apt install nginx -y
-sudo service start nginx
+sudo service nginx start

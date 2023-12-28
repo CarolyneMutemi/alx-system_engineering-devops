@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Make your fix short and sweet.
 sudo apt install nginx -y
-sudo start nginx
+sudo service nginx start
 sudo rm /run/nginx.pid
