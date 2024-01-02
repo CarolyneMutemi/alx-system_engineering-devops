@@ -25,7 +25,7 @@ if __name__ == '__main__':
                 done += 1
             total += 1
 
-    print(f'Employee {name} is done with tasks({done}/{total})')
+    print(f'Employee {name} is done with tasks({done}/{total}):')
 
     for title in list_done:
         print(f'\t {title}')
