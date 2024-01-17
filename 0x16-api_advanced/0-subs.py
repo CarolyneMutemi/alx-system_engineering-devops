@@ -24,4 +24,4 @@ def number_of_subscribers(subreddit):
 
     response = req.json()
 
-    return response['data'].get('subscribers')
+    return response['data'].get('subscribers', 0)
