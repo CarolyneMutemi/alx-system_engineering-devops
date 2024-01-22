@@ -70,6 +70,7 @@ def print_count(dic):
     Fulfill the given requirements about printing the result.
     """
     sort_dic = dict(sorted(dic.items(), key=lambda elem: elem[0]))
-    sorted_dic = dict(sorted(sort_dic.items(), key=lambda elem: elem[1], reverse=True))
+    sorted_dic = dict(sorted(sort_dic.items(),
+                             key=lambda elem: elem[1], reverse=True))
     for key, value in sorted_dic.items():
         print(f"{key}: {value}")
