@@ -4,7 +4,7 @@ service { 'apache2':
   ensure => running
 }
 
-exec { 'mv /var/www/html/wp-includes/class-wp-locale.php':
-  command => '/bin/mv /var/www/html/wp-includes/class-wp-locale.php /var/www/html/wp-includes/class-wp-locale.phpp',
+exec { 'sed phpp|php':
+  command => '/bin/sed -i "s|phpp|php|" /var/www/html/wp-settings.php >> /dev/null',
   notify  => Service['apache2']
 }
